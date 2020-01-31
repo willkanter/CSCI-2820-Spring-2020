@@ -1,0 +1,147 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2511
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+% Do not alter this block (unless you're familiar with LaTeX\
+\\documentclass\{article\}\
+\\usepackage[margin=1in]\{geometry\} \
+\\usepackage\{amsmath,amsthm,amssymb,amsfonts, fancyhdr, color, comment, graphicx, environ\}\
+\\usepackage\{xcolor\}\
+\\usepackage\{mdframed\}\
+\\usepackage[shortlabels]\{enumitem\}\
+\\usepackage\{indentfirst\}\
+\\usepackage\{hyperref\}\
+\\hypersetup\{\
+    colorlinks=true,\
+    linkcolor=blue,\
+    filecolor=magenta,      \
+    urlcolor=blue,\
+\}\
+\
+\
+\\pagestyle\{fancy\}\
+\
+\
+\\newenvironment\{problem\}[3][Problem]\
+    \{ \\begin\{mdframed\}[backgroundcolor=gray!20] \\textbf\{#1 #2\} \\textit\{worth #3 points\} \\\\\}\
+    \{  \\end\{mdframed\}\}\
+\
+% Define solution environment\
+\\newenvironment\{solution\}\
+    \{\\textit\{Solution:\}\}\
+    \{\}\
+\
+\\renewcommand\{\\qed\}\{\\quad\\qedsymbol\}\
+\
+% prevent line break in inline mode\
+\\binoppenalty=\\maxdimen\
+\\relpenalty=\\maxdimen\
+\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%Fill in the appropriate information below\
+\\lhead\{Will Kanter\}\
+\\rhead\{CSCI 2820\} \
+\\chead\{\\textbf\{Homework 2  Due: 31 January 2020 11:59 pm\}\}\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+\
+\\begin\{document\}\
+\
+\
+\
+\\begin\{problem\}\{2.4\}\{4\}\
+\\textit\{Linear function?\} The function $\\phi: \\textbf\{R\}^3 \\rightarrow \\textbf\{R\}$ satisfies \\\\ \
+$$\\phi(1,1,0) = -1 \\quad \\phi(-1,1,1) = 1 \\quad \\phi(1,-1,-1) =1$$\\\\\
+Choose one of the following, and justify your choice: $\\phi$ must be linear; $\\phi$ could be linear; $\\phi$ cannot be linear.\\\\\
+\\end\{problem\}\
+\
+\\begin\{solution\}\
+$$\\alpha \\cdot\\phi (\\Vec\{x\}) = \\phi (\\alpha\\cdot\\Vec\{x\})\\quad (\\textit\{principle of superposition\})$$\\\\\
+Let $\\alpha = -1$, $\\Vec\{x\}_\{b\} = (-1, 1, 1)$, and $\\Vec\{x\}_c = (1, -1, -1)$\\\\\
+\\begin\{align*\}\
+    \\alpha \\cdot\\phi (\\Vec\{x\}_b) &= \\phi (\\alpha\\cdot\\Vec\{x\}_b)\\\\\
+    -1 \\cdot \\phi(-1, 1, 1) &= \\phi(-1\\cdot\\begin\{pmatrix\} -1 \\\\ 1 \\\\ 1 \\end\{pmatrix\})\\\\\
+    -1 \\cdot (1) &= \\phi ( \\begin\{pmatrix\} 1 \\\\ -1 \\\\ -1 \\end\{pmatrix\})\\\\\
+    -1 &= \\phi(1, -1, -1) \\\\\
+    -1 &\\neq 1\
+\\end\{align*\}\
+Because we are told the function $\\phi(\\Vec\{x\}_c) = 1$ when $\\Vec\{x\}_c = (1, -1, -1)$, and since $\\alpha\\cdot\\Vec\{x\}_b = (1, -1, -1) = \\Vec\{x\}_c$, we see that superposition does not hold, therefore $\\phi$ cannot be linear.\\\\\
+\\end\{solution\}\
+\
+\\begin\{problem\}\{2.4\}\{4\}\
+\\textit\{Affine function\}. Suppose $\\psi : \\textbf\{R\}^2\\rightarrow\\textbf\{R\}$ is an affine function, with $\\psi(1,0)=1$, $\\psi(1,-2)=2$.\
+\\begin\{enumerate\}[(a)]\
+    \\item What can you say about $\\psi(1,-1)$? Either give the value of $\\psi(1,-1)$ or state that it cannot be determined.\\\\\
+    \\item What can you say about $\\psi(2,-2)$? Either give the value of $\\psi(2,-2)$ or state that it cannot be determined.\\\\\
+\\end\{enumerate\}\
+\\end\{problem\}\
+\\begin\{solution\}\
+\\begin\{enumerate\}[(a)]\
+    \\item Since we're given $\\psi(1,0) = 1$ and $\\psi(1,-2) = 2$ we can conclude that the value $1 < \\psi(1,-1) < 2$ because we see $\\Vec\{x\}_1$ remains constant as $\\Vec\{x\}_2$ is changing which, in turn, causes $\\psi(\\Vec\{x\})$ to change. Since an affine function must be linear, if we keep a value constant and change another the result will change linearly, and since $\\lvert\\Delta\\Vec\{x\}_2\\rvert = 2$ and $\\lvert \\Delta\\psi(\\Vec\{x\})\\rvert = 1$, if we look at the change in result with respect to $\\Vec\{x\}_2$ we get $\\frac\{1\}\{2\}$. Add this on to our given initial value and we get $\\psi(1,-1) = \\frac\{3\}\{2\}$.\\\\\
+    \\item We are not told how the function behaves as $\\Vec\{x\}_1$ changes, so the value of $\\psi(2,-2)$ cannot be determined.\\\\ \
+\\end\{enumerate\}\
+\\end\{solution\}\
+\
+\
+\\begin\{problem\}\{2.9\}\{6\}\
+\\textit\{Taylor approximation\}. Consider the function $ f : \\textbf\{R\}^2\\rightarrow\\textbf\{R\}$ given by $f(x_1,x_2) = x_\{1\}x_2$. Find the Taylor approximation $\\hat\{f\}$ at the point $z = (1,1)$. Compare $f(x)$ and $\\hat\{f\}(x)$ for the following values of $x$.\\\\\
+$$x = (1, 1), \\quad x = (1.05, 0.95), \\quad x = (0.85,1.25), \\quad x=(-1,2).$$\
+Make a brief comment about the accuracy of the Taylor approximation in each case. \
+\\end\{problem\}\
+\\begin\{solution\}\
+If $z = (1,1)$, then we see $f(z) = (1)\\cdot(1) = 1$.\\\\\
+\\begin\{align*\}\
+    \\hat\{f\}(x) = f(z) + \\frac\{\\delta f(z)\}\{\\delta x_1\}(x_1-z_1) + \\frac\{\\delta f(z)\}\{\\delta x_2\}(x_2-z_2)\
+\\end\{align*\}\
+Now we take a look at our partial derivatives for $x_1$ and $x_2$ when $f(z) = 1$\\\\\
+\\begin\{align*\}\
+    \\frac\{\\delta f(z)\}\{\\delta x_1\} &= x_2(1) & \\frac\{\\delta f(z)\}\{\\delta x_2\} &= x_1(1) \\\\\
+    &= (1)(1) & &= (1)(1)\\\\\
+    &=1 & &=1\\\\\
+\\end\{align*\}\
+Going back to our function $\\hat\{f\}$\\\\\
+\\begin\{align*\}\
+    \\hat\{f\}(x) = f(z) &+ \\frac\{\\delta f(z)\}\{\\delta x_1\}(x_1-z_1) + \\frac\{\\delta f(z)\}\{\\delta x_2\}(x_2-z_2)\\\\\
+    \\hat\{f\}(x) = (1) &+ (1)(x_1-1) + (1)(x_2-1)\\\\\
+    \\hat\{f\}(x) = (1) &+ (x_1-1) + (x_2-1)\\\\\
+\\end\{align*\}\
+Now let's evaluate for each of our given vectors:\
+\\begin\{align*\}\
+    \\hat\{f\}(1,1) &= (1) + (1-1) + (1-1)\\\\\
+    \\hat\{f\}(1,1) &= 1 + 0 + 0\\\\\
+    \\hat\{f\}(1,1) &=1\\\\\
+    \\\\\
+    \\hat\{f\}(1.05, 0.95) &= (1) + (1.05-1) + (.95-1)\\\\\
+    \\hat\{f\}(1.05, 0.95) &= (1) + (.05) - (.05)\\\\\
+    \\hat\{f\}(1.05, 0.95) &= 1 \\\\\
+    \\\\\
+    \\hat\{f\}(0.85, 1.25) &= (1) + (.85 - 1) + (1.25-1)\\\\\
+    \\hat\{f\}(0.85, 1.25) &= (1) - (.15) + (.25)\\\\\
+    \\hat\{f\}(0.85, 1.25) &= 1.1\\\\\
+    \\\\\
+    \\hat\{f\}(-1, 2) &= (1) + (-1 - 1) + (2-1)\\\\\
+    \\hat\{f\}(-1, 2) &= (1) - 2 + 1\\\\\
+    \\hat\{f\}(-1, 2) &= 0\\\\\
+\\end\{align*\}\
+\\end\{solution\}\
+\\begin\{problem\}\{2.10\}\{6\}\
+\\textit\{Regression model\}. Consider the regression model $\\hat\{y\} = x^T\\beta + v$, where $\\hat\{y\}$ is the predicted response, x is an 8-vector of features, $\\beta$ is an 8-vector of coefficients, and $v$ is the offset term. Determine whether each of the following statements is true or false.\
+\\begin\{enumerate\}[(a)]\
+    \\item If $\\beta_3 > 0$, and $x_3 > 0$, then $\\hat\{y\}\\geq 0$.\
+    \\item If $\\beta_2 = 0$ then the prediction $\\hat\{y\}$ does not depend on the second feature $x_2$.\
+    \\item If $\\beta_6 = -0.8$, then increasing $x_6$ (keeping all other $x_i$s the same) will decrease $\\hat\{y\}$.\
+\\end\{enumerate\}\
+\
+\\end\{problem\}\
+\\begin\{solution\}\
+\\begin\{enumerate\}[(a)]\
+    \\item False. We can't conclude the value of $\\hat\{y\}$ from just a singular $x_i$ when we have a vector of 8 features.\
+    \\item True. If $\\beta_2=0$ then it "eliminates" the value at $x_2$ meaning the final product does not depend on that value. \
+    \\item True. Increasing the value of $x_6$ will create a larger negative value. Since $x^T\\beta$ involves summing all our elements after multiplying them with each corresponding coefficient, and since we are leaving all other $x_i$s the same, then increasing our value $x_6$ will create a larger negative value in the summation, creating a smaller scalar of $\\hat\{y\}$.\
+\\end\{enumerate\}\
+\\end\{solution\}\
+\\end\{document\}\
+}
