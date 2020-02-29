@@ -1,0 +1,196 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Do not alter this block (unless you're familiar with LaTeX
+\documentclass{article}
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,amsfonts, fancyhdr, color, comment, graphicx, environ}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{tikz}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+
+\pagestyle{fancy}
+
+% Define problem environment
+\newenvironment{problem}[3][Problem]
+    { \begin{mdframed}[backgroundcolor=gray!20] \textbf{#1 #2} \textit{worth #3 points} \\}
+    {  \end{mdframed}}
+
+% Define solution environment
+\newenvironment{solution}
+    {\textit{Solution:}}
+    {}
+
+\renewcommand{\qed}{\quad\qedsymbol}
+
+% prevent line break in inline mode
+\binoppenalty=\maxdimen
+\relpenalty=\maxdimen
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Fill in the appropriate information below
+\lhead{Will Kanter}
+\rhead{CSCI 2820} 
+\chead{\textbf{Homework \#6 Due: 28 Feb 2020 11:59 PM}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{problem}{6.5}{4}
+\textit{Adjacency matrix of reversed graph}. Suppose $A$ is the adjacency matrix of a directed graph (see page {\color{red} 112}). The \textit{reversed graph} is obtained by reversing the directions of all the edges of the original graph. What is the adjacency matrix of the reversed graph? (Express your answer in terms of $A$.)
+\end{problem}
+\begin{solution}
+Using our example in the textbook we can see that the reversed graph's adjacency matrix is equal to its transpose $G_i^T=G_r$. We can show this using the definition of transposing a matrix and explaining what reversing a directed graph would do. \\
+\\
+First, let's use a simple directed graph of 3 nodes and 3 edges, node 1 points to node 2, node 2 points to node 3, and node 3 points to node 1. Let $G$ be this incidence matrix.
+$$G =\begin{bmatrix}
+    0 &1 &0 \\
+    0 &0 &1 \\
+    1 &0 &0
+\end{bmatrix}$$
+When we transpose a matrix, simply put, we swap our $i$ and $j$ indices, meaning $A^T: A_{i,j} \longrightarrow A_{j,i}$. If we look at reversing our edges on our graph we see the exact same thing happening
+$$G^T =\begin{bmatrix}
+    0 &0 &1 \\
+    1 &0 &0 \\
+    0 &1 &0
+\end{bmatrix}$$
+Putting this into words, if our edges are reversed, we would see $G_{1,2}$ need to become $G_{2,1}$, $G_{2,3}$ need to become $G_{3,2}$, and $G_{3,1}$ need to become $G_{1,3}$. looking at our transposed matrix, this is exactly what we have. {\color{olive}So, the adjacency matrix of a reversed graph looks like the adjacency matrix of the initial graph, transposed.}
+\end{solution}
+
+\begin{problem}{6.12}{6(b\&c)}
+\textit{Skew-symmetric matrices}. An $n \times n$ matrix $A$ is called \textit{skew-symmetric} if $A^T = -A$, \textit{i.e.}, its transpose is its negative. (A symmetric matrix satisfies $A^T = A$.)
+\begin{enumerate}[(a)]
+    \item Find all $2\times 2$ skew-symmetric matrices.
+    \item Explain why the diagonal entries of a skew-symmetric matrix must be zero.
+    \item Show that for a skew-symmetric matrix $A$, and any $n$-vector $x$, $(Ax) \perp x$. This means that $Ax$ and $x$ are orthogonal. \textit{Hint}. First show that for any $n\times n$ matrix $A$ and $n$-vector $x$, $x^{T}(A x)=\sum_{i, j=1}^{n} A_{i j} x_{i} x_{j}$
+    \item Now suppose $A$ is any matrix for which $(Ax) \perp x$ for any $n$-vector $x$. Show that $A$ must be skew-symmetric. \textit{Hint}. You might find the formula
+    $$\left(e_{i}+e_{j}\right)^{T}\left(A\left(e_{i}+e_{j}\right)\right)=A_{i i}+A_{j j}+A_{i j}+A_{j i}$$
+    valid for any $n\times n$ matrix $A$, useful. For $i = j$, this reduces to $e_i^T(Ae_i)= A_{ii}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+(b) The definition of skew-symmetry is $A^T = -A$, or $A_{i,j} = -A_{j,i}$
+\begin{align*}
+    (-1)\begin{bmatrix} 0 &1 &2 \\ -1 &0 &3 \\ -2 &-3 &0 \end{bmatrix} = \begin{bmatrix} 0 &-1 &-2 \\ 1 &0 &-3 \\ 2 &3 &0 \end{bmatrix}
+\end{align*}
+When we have a skew symmetric matrix and transpose it, we want the negative of our value in the it's newly transposed spot. When looking at diagonals, their indices $i$ and $j$ are equal, meaning in a transpose they would not move. If they don't move then when we multiply the entire matrix by $-1$, we want our values to stay the same, meaning they have to be 0. \\
+\\
+(c) using the given formula and our knowledge that $A_{i,j} = -A_{j,i}$ and $A_{ii} = A_{jj} = 0$ we can see where this is heading. When looking for linear independence we know that we need coefficients to multiply by each vector, and then sum to 0. When we multiply the $n\times n$ matrix $A$ by the $1\times n$ vector $x$ we get a vector of size $1\times n$. Since we are going to sum all our A values, and for every $A_{i,j}$ there exists $-A_{i,j}$ at location $A_{j,i}$, when we multiply our vector $x$, we will get equal and opposite values, so it will sum to 0, which defines linear independence. 
+\end{solution}
+
+\begin{problem}{6.18}{6}
+\textit{Vandermonde matrices}. A Vandermonde matrix is an $m\times n$ matrix of the form
+\begin{align*}
+\begin{bmatrix}
+    1 & t_{1} & t_{1}^2 & \dots  & t_{1}^{n-1} \\
+    1 & t_{2} & t_{2}^2 & \dots  & t_{2}^{n-1} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    1 & t_{m} & t_{m}^2 & \dots  & t_{m}^{n-1} 
+\end{bmatrix}
+\end{align*}
+where $t_1, \ldots , t_m$ are numbers. Multiplying an $n$-vector $c$ by the Vandermonde matrix $V$ is the same as evaluating the polynomial of degree less than $n$, with coefficients $c_1,\ldots , c_n$, at the points $t_1, \ldots , t_m$; see page {\color{red} 120}. Show that the columns of a Vandermonde matrix are linearly independent if the numbers $t_1, \ldots , t_m$ are distinct, \textit{i.e.}, different from each other. \textit{Hint}. Use the following fact from algebra: If a polynomial $p$ with degree less than $n$ has $n$ or more roots (points $t$ for which $p(t) = 0$) then all its coefficients are zero.
+\end{problem}
+\begin{solution}
+If we have a \textit{Vandebonde matrix} of size $m\times n$ such that $m\geq n$, when we multiply by an $n$-vector $x$ we will get a vector of size $m\times 1$. 
+\begin{align*}
+    \begin{bmatrix} 1 & t_{1} & t_{1}^2 & \dots  & t_{1}^{n-1} \\
+    1 & t_{2} & t_{2}^2 & \dots  & t_{2}^{n-1} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    1 & t_{m} & t_{m}^2 & \dots  & t_{m}^{n-1} 
+    \end{bmatrix} &* \begin{bmatrix}
+        c_1 \\ c_2 \\ \vdots \\ c_n
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        c_1 \\ c_2 \\ \vdots \\ c_m
+    \end{bmatrix}\\
+\end{align*}
+For this matrix, the largest polynomial degree we can get is $n-1$. From the Fundamental Theorem of Algebra, For any polynomial, the most amount of roots we could have is $n-1$. So, for our matrix, the largest polynomial we could get is $n-1$, but we have coefficients to $m$. So we would have $m-n$ more coefficients than $A$ has degrees of polynomials. If $c$ had values other than 0, we would get those values back, so $c$ must be all 0s.
+\end{solution}
+
+\begin{problem}{Written}{4}
+Let $x = \begin{bmatrix} 1 \\ 0\end{bmatrix}$ and $y = \begin{bmatrix} 0 \\ 1\end{bmatrix}$. You need to determine if the vectors, $Ax$ and $Ay$ are linearly independent, dependent, or if this fact cannot be determined when
+\begin{enumerate}
+    \item $A = \begin{bmatrix}
+        0 &1 \\
+        1 &0
+    \end{bmatrix}$
+    \item $A = \begin{bmatrix}
+        3 &3 \\
+        4 &4
+    \end{bmatrix}$
+\end{enumerate}
+\end{problem}
+\begin{align*}
+    A*x &= \begin{bmatrix}
+        0 &1 \\
+        1 &0
+    \end{bmatrix} * \begin{bmatrix}
+        1\\ 0
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        (1*0) + (0*1)\\
+        (1*1) + (0*0)
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        0 \\ 1
+    \end{bmatrix}\\
+\end{align*}
+This looks familiar...
+\begin{align*}
+    A*y &= \begin{bmatrix}
+        0 &1 \\
+        1 &0
+    \end{bmatrix} * \begin{bmatrix}
+        0\\ 1
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        (0*0) + (1*1)\\
+        (0*1) + (1*0)
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        1 \\ 0
+    \end{bmatrix}\\
+\end{align*}
+Now we see our operations produced $$Ay = \begin{bmatrix} 1 \\ 0 \end{bmatrix} \quad Ax = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$$
+There is not a scalar that would allow $\beta Ax = Ay$, therefore $Ax$ and $Ay$ are linearly independent. 
+\begin{align*}
+    A*y &= \begin{bmatrix}
+        3 &3 \\
+        4 &4
+    \end{bmatrix} * \begin{bmatrix}
+        1\\ 0
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        (1*3) + (0*3)\\
+        (1*4) + (0*4)
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        3 \\ 4
+    \end{bmatrix}\\
+\end{align*}
+Next
+\begin{align*}
+    A*y &= \begin{bmatrix}
+        3 &3 \\
+        4 &4
+    \end{bmatrix} * \begin{bmatrix}
+        0\\ 1
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        (0*3) + (1*3)\\
+        (0*4) + (1*4)
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+        3 \\ 4
+    \end{bmatrix}\\
+\end{align*}
+They are the same, so they can be multiplied by the scalar 1, and get the other. $\therefore$ they are linearly dependant.
+\end{document}
