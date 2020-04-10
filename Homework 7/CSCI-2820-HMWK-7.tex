@@ -1,0 +1,109 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Do not alter this block (unless you're familiar with LaTeX
+\documentclass{article}
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,amsfonts, fancyhdr, color, comment, graphicx, environ}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{tikz}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+
+\pagestyle{fancy}
+
+% Define problem environment
+\newenvironment{problem}[3][Problem]
+    { \begin{mdframed}[backgroundcolor=gray!20] \textbf{#1 #2} \textit{worth #3 points} \\}
+    {  \end{mdframed}}
+
+% Define solution environment
+\newenvironment{solution}
+    {\textit{Solution:}}
+    {}
+
+\renewcommand{\qed}{\quad\qedsymbol}
+
+% prevent line break in inline mode
+\binoppenalty=\maxdimen
+\relpenalty=\maxdimen
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Fill in the appropriate information below
+\lhead{Will Kanter}
+\rhead{CSCI 2820-001} 
+\chead{\textbf{Homework \#7 Due: 20 MAR 20 23:59}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{problem}{9.1}{7}
+\textit{Compartmental system.} A \textit{compartmental system} is a model used to describe the movement of some material over time among a set of \textit{n} compartments of a system, and the outside world. It is widely used in \textit{pharmaco-kinetics}, the study of how the concentration of a drug varies over time in the body. In this application, the material is a drug, and the compartments are the bloodstream, lungs, heart, liver, kidneys, and so on. Compartmental systems are special cases of linear dynamical systems.\\
+\\
+In this problem we will consider a very simple compartmental system with 3 compartments. We let $(x_t)_i$ denote the amount of material (say, a drug) in compartment $i$ at time period $t$. Between period $t$ and period $t+1$, the material moves as follows.
+\begin{itemize}
+    \item 10\% of the material in compartment 1 moves to compartment 2. (This decreases the amount in compartment 1 and increases the amount in compartment 2).
+    \item 5\% of the material in compartment 2 moves to compartment 3.
+    \item 5\% of the material in compartment 3 moves to compartment 1.
+    \item 5\% of the material in compartment 3 is eliminated.
+\end{itemize}
+Express this compartmental system as a linear dynamical system, $x_{t+1} = Ax_t$. (Give the matrix $A$.) Be sure to account for all the material entering and leaving each compartment. 
+\end{problem}
+\begin{solution}
+Breaking down each piece allows us to see how each is affected by time. Starting with  compartment 1 $[(x_0)_1]$ we see it loses 10\% to compartment 2 and gains 5\% from compartment 3. This means we should see $(x_{t+1})_1 = .9(x_t)_1 + .05(x_t)_3$. Using knowledge of linear equations, we know that our matrix $A$ is going to be the coefficients needed to make the next iteration:
+\begin{align*}
+    \begin{bmatrix} (x_{t+1})_1 \\ (x_{t+1})_2 \\ (x_{t+1})_3 \end{bmatrix} &= A \begin{bmatrix} (x_t)_1 \\ (x_t)_2 \\ (x_t)_3  \end{bmatrix}\\
+    \begin{bmatrix} (x_{t+1})_1 \\ (x_{t+1})_2 \\ (x_{t+1})_3 \end{bmatrix} &= \begin{bmatrix} 0.9 & 0 & 0.05 \\ .1 & .95 & 0 \\ 0 & .05 & .95 \end{bmatrix} \begin{bmatrix} (x_t)_1 \\ (x_t)_2 \\ (x_t)_3  \end{bmatrix} \\
+    \begin{bmatrix} (x_{t+1})_1 \\ (x_{t+1})_2 \\ (x_{t+1})_3 \end{bmatrix} &= \begin{bmatrix} 0.9(x_t)_1 + 0(x_t)_2 + 0.05(x_t)_3 \\ .1(x_t)_1 + .95(x_t)_2 + 0(x_t)_3 \\ 0(x_t)_1 + .05(x_t)_2 + .95(x_t)_3 \end{bmatrix}\\
+    \begin{bmatrix} (x_{t+1})_1 \\ (x_{t+1})_2 \\ (x_{t+1})_3 \end{bmatrix} &= \begin{bmatrix} 0.9(x_t)_1 + 0.05(x_t)_3 \\ .1(x_t)_1 + .95(x_t)_2 \\ .05(x_t)_2 + .9(x_t)_3 \end{bmatrix}
+\end{align*}
+We can verify the other two quickly. $$(x_{t+1})_2 = .1(x_t)_1 + .95(x_t)_2$$ Because compartment 2 gains 10\% from compartment 1 and loses 5\% from itself, meaning it has 95\% left. $$(x_{t+1})_3 = .05(x_t)_2 + .9(x_t)_3$$ Because compartment 3 gains 5\% of compartment 2 and loses 5\% of itself, but also gives 5\% of its material to compartment 2, totaling 10\% lost.
+\end{solution}
+\newpage
+\begin{problem}{9.3}{6}
+\textit{Equilibrium point for linear dynamical system}. Consider a time-invariant linear dynamical system with offset, $x_{t+1} = Ax_t +c$, where $x_t$ is the state $n$-vector. We say that a vector $z$ is an \textit{equilibrium point} of the linear dynamical system if $x_1 = z$ implies $x_2 = z$, $x_3 = z$,$\ldots$ (In words: If the system starts in state $z$, it stays in state $z$.)\\
+\\
+Find a matrix $F$ and vector $g$ for which the set of linear equations $F z = g$ characterizes equilibrium points. (This means: If $z$ is an equilibrium point, then $F z = g$; conversely if $F z = g$, then $z$ is an equilibrium point.) Express $F$ and $g$ in terms of $A, c$, any standard matrices or vectors (e.g., $I$, \textbf{1}, or 0), and matrix and vector operations.\\
+\\
+\textit{Remark}. Equilibrium points often have interesting interpretations. For example, if the linear dynamical system describes the population dynamics of a country, with the vector c denoting immigration (emigration when entries of c are negative), an equilibrium point is a population distribution that does not change, year to year. In other words, immigration exactly cancels the changes in population distribution caused by aging, births, and deaths.
+\end{problem}
+\begin{solution}
+We will first plug in two identical vectors and see what we need $A$ and $c_n$ to be. $$Fz = g$$ $$A\begin{bmatrix} z \\ z \\ z \end{bmatrix} + c_n = \begin{bmatrix} z \\ z \\ z \end{bmatrix}$$ $$\begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}\begin{bmatrix} z \\ z \\ z \end{bmatrix} + c_n = \begin{bmatrix} z \\ z \\ z \end{bmatrix}$$ $$\begin{bmatrix} z \\ z \\ z \end{bmatrix} + c_n = \begin{bmatrix} z \\ z \\ z \end{bmatrix}$$ 
+The only thing $c_n$ should be is $0_n$, and $A = I_{n\times n}$ $$\begin{bmatrix} z \\ z \\ z \end{bmatrix} + \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} z \\ z \\ z \end{bmatrix}$$ And so now we have $z = z,$ meaning we have equilibrium.
+\end{solution}
+\begin{problem}{9.5 modified}{7}
+    Suppose we were to represent the $(n+1)^{th}, n^{th}$ Fibonacci numbers as a linear dynamical system, we would go about it as follows, we first define the initial values to be $x_1 = \begin{bmatrix} 1 \\ 0 \end{bmatrix},$ representing the second and first Fibonacci numbers respectively (0 and 1). That is we consider $x_1 = \begin{bmatrix} fib(2) \\ fib(1) \end{bmatrix}.$ Where $fib(n)$ denotes the $n^{th}$ Fibonacci number for your convenience. Your task is to find the matrix $A$ such that $x_{t+1}= Ax_t,$ that is matrix $A$ such that on multiplying it to the vector containing the $(n)^{th}$ and $(n-1)^{th}$ Fibonacci numbers would give us the $(n+1)^{th}$ and $(n)^{th}$ Fibonacci numbers. That is find $A$ such that $$\begin{bmatrix} fib(n+1) \\ fib(n) \end{bmatrix} = A \begin{bmatrix} fib(n) \\ fib(n-1) \end{bmatrix}$$ 
+\end{problem}
+\begin{solution}
+    since the Fibonacci sequence is defined as $fib(n+1) = fib(n) + fib(n-1)$
+\begin{align*}
+    \begin{bmatrix} fib(n+1) \\ fib(n) \end{bmatrix} &= A \begin{bmatrix} fib(n) \\ fib(n-1) \end{bmatrix} \\
+    \begin{bmatrix} fib(n+1) \\ fib(n) \end{bmatrix} &= \begin{bmatrix} 1 & 1 \\ 1 & 0 \end{bmatrix} \begin{bmatrix} fib(n) \\ fib(n-1) \end{bmatrix}\\
+    \begin{bmatrix} fib(n+1) \\ fib(n) \end{bmatrix} &= \begin{bmatrix} fib(n)(1) &+ fib(n-1)(1) \\ fib(n)(1) &+ 0 \end{bmatrix}\\
+    \begin{bmatrix} fib(n+1) \\ fib(n) \end{bmatrix} &= \begin{bmatrix} fib(n) + fib(n-1) \\ fib(n) \end{bmatrix}
+\end{align*}
+so we see $A = \begin{bmatrix} 1 & 1 \\ 1 & 0 \end{bmatrix}$ satisfies the sequence conditions because $fib(n+1) = fib(n) + fib(n-1)$
+\end{solution}
+\begin{problem}{9.4 Modified}{10 extra credit}
+Express the $K$-Markov model as a linear dynamical system with state $z_t = (x_t, \ldots, x_{t - K + 1})$ , (As in $z_{t + 1} = Bz_t$, find $B$ ) where $x_{t+1}=A_{1} x_{t}+A_{2} x_{t-1}+A_{3} x_{t-2}+\ldots+A_{K} x_{t-K+1}$  (Hint: Use Block Matrices)
+\end{problem}
+\begin{solution}
+To begin I started with the original problem to find the pattern occuring. It came down to multiplying the original vector by a matrix that would create the a new vector from $x_2$ and $x_3$ to $x_3$ and $x_4$. This was because the $n+1th$ element is a recurrence relation and needs the two preceding vectors to make itself.  
+\begin{align*}
+    \begin{bmatrix} x_{t+1} \\ x_t \\ x_{t-1}\end{bmatrix} &= \begin{bmatrix} A_1 & A_2 & A_3 \\ I & 0 & 0 \\ 0 & I & 0 \end{bmatrix} \begin{bmatrix} x_t \\ x_{t-1} \\ x_{t-2} \end{bmatrix} \\
+    \begin{bmatrix} x_{t+1} \\ x_t \\ x_{t-1}\end{bmatrix} &= \begin{bmatrix} A_1x_t + A_2x_{t-1} + A_3x_{t-2} \\ Ix_t + 0 + 0 \\ 0 + Ix_{t-1} + 0 \end{bmatrix} \\ 
+    \begin{bmatrix} x_{t+1} \\ x_t \\ x_{t-1}\end{bmatrix} &= \begin{bmatrix} A_1x_t + A_2x_{t-1} + A_3x_{t-2} \\ x_t  \\  x_{t-1} \end{bmatrix}
+\end{align*}
+To make this go to $t-K+1$:
+\begin{align*}
+    B = \begin{bmatrix} A_1 & A_2 & A_3 & \cdots & A_K \\ I & 0 & 0 & \cdots & 0 \\ 0 & I & 0 & \cdots & 0 \\ \vdots & \vdots & \ddots & \ddots & 0 \\ 0 & 0 & 0 & I & 0\end{bmatrix}
+\end{align*}
+\end{solution}
+\end{document}

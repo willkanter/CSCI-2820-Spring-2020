@@ -1,0 +1,156 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Do not alter this block (unless you're familiar with LaTeX
+\documentclass{article}
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,amsfonts, fancyhdr, color, comment, graphicx, environ}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{tikz}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+
+\pagestyle{fancy}
+
+% Define problem environment
+\newenvironment{problem}[3][Problem]
+    { \begin{mdframed}[backgroundcolor=gray!20] \textbf{#1 #2} \textit{worth #3 points} \\}
+    {  \end{mdframed}}
+
+% Define solution environment
+\newenvironment{solution}
+    {\textit{Solution:}}
+    {}
+
+\renewcommand{\qed}{\quad\qedsymbol}
+
+% prevent line break in inline mode
+\binoppenalty=\maxdimen
+\relpenalty=\maxdimen
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Fill in the appropriate information below
+\lhead{Will Kanter}
+\rhead{CSCI 2820} 
+\chead{\textbf{Homework \#9 Due: 10 APR 2020}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{document}
+
+\begin{problem}{11.4}{4}
+\textit{Transpose of orthogonal matrix}. Let $U$ be an orthogonal $n\times n$ matrix. Show that its transpose $U^T$ is also orthogonal.
+\end{problem}
+\begin{solution}
+If $U$ is orthogonal, $U^TU = I$ and $U^{-1} = U^T\longrightarrow U^{-1}U=UU^{-1}=I$.\\
+Orthogonal matrices imply orthonormal rows: $$U_iU_j=\left\{\begin{array}{cc}
+    1 & i = j \\
+    0 & i \neq j 
+\end{array},\right. $$ where $i$ and $j$ denote row number. Let $A = U^{T}$ and suppose the columns of $A$ are orthonormal. If we let our rows of $U$ represent $1\times n$ orthonormal vectors and our columns of $A$ as $n\times 1$ orthonormal vectors, when we transpose the vector of block vectors we find:
+\begin{align*}
+    \begin{bmatrix} U_{R1}A_{C1} &  U_{R1}A_{C2} & U_{R1}A_{C3}\\ U_{R2}A_{C1} & U_{R2}A_{C2} & U_{R2}A_{C3} \\ U_{R3}A_{C1} & U_{R3}A_{C2} & U_{R3}A_{C3} \end{bmatrix} &= \begin{bmatrix} 1 &  0 & 0\\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}\\
+    &= I
+\end{align*}
+This satisfies our condition $U^{-1}U=UU^{-1}=I$ because rows become the columns of transposed vectors, so the only time we'll get a one are when the row number matches the column number.
+
+\end{solution}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}{11.6}{6}
+\textit{Inverse of a block upper triangular matrix}. Let $B$ and $D$ be invertible matrices of sizes
+$m\times m$ and $n\times n$, respectively, and let $C$ be any $m\times n$ matrix. Find the inverse of $$A = \begin{bmatrix} B & C \\ 0 & D \end{bmatrix}$$ in terms of $B^{-1}, C$, and $D^{-1}$. (The matrix $A$ is called \textit{block upper triangular}.) \\
+\textit{Hints}. First get an idea of what the solution should look like by considering the case when $B$, $C$, and $D$ are scalars. For the matrix case, your goal is to find matrices $W$, $X$, $Y$ , $Z$ (in terms of $B^{-1}$, $C$, and $D^{-1}$) that satisfy $$A\begin{bmatrix} W & X \\ Y & Z \end{bmatrix} = I.$$ Use block matrix multiplication to express this as a set of four matrix equations that you can then solve. The method you will find is sometimes called \textit{block back substitution}.
+\end{problem}
+\begin{solution}
+\begin{align*}
+    && A \begin{bmatrix} W & X \\ Y & Z \end{bmatrix} &= \begin{bmatrix} I & 0 \\ 0 & I \end{bmatrix}\\
+    &&\begin{bmatrix} B & C \\ 0 & D \end{bmatrix} \begin{bmatrix} W & X \\ Y & Z \end{bmatrix} &= \begin{bmatrix} I & 0 \\ 0 & I \end{bmatrix}\\
+    &\text{(first index will be I)} & \begin{bmatrix} B \\ C \end{bmatrix}\begin{bmatrix} W \\ Y \end{bmatrix} &= I \\
+    && (BW + CY) &= I\\
+    &\text{(second index will be 0)} & \begin{bmatrix} B \\ C \end{bmatrix}\begin{bmatrix} X \\ Z \end{bmatrix} &= 0 \\
+    && (BX + CZ) &= 0 \\
+    &\text{(third index will be 0)} & \begin{bmatrix} 0 \\ D \end{bmatrix}\begin{bmatrix} W\\ Y \end{bmatrix} &= 0 \\
+    &\text{this implies Y = 0}& DY &= 0 \\
+    &\text{(fourth index will be I)} & \begin{bmatrix} 0 \\ D \end{bmatrix}\begin{bmatrix} X\\ Z \end{bmatrix} &= I \\
+    &\text{this implies $Z=D^{-1}$}& DZ &= I
+\end{align*}
+Since we've figured out $Y = 0$ we plug this into the equation for the first index $(BW+CY) = I$ and we see $BW=I$; from our identities we can deduce $W=B^{-1}$. To find $X$ we will use $(BX+CZ)=0$.
+\begin{align*}
+    (BX+CZ)&=0\\
+    BX &= -CZ\\
+    (B^{-1})BX &= -(B^{-1})CZ\\
+    IX &= -B^{-1}CZ\\
+    X &= -B^{-1}CD^{-1}
+\end{align*}
+So this means our answer is $$\begin{bmatrix} W & X \\ Y & Z \end{bmatrix} = \begin{bmatrix} B^{-1} & -B^{-1}CD^{-1} \\ 0 & D^{-1} \end{bmatrix}.$$ Proven:
+\begin{align*}
+    \begin{bmatrix} B & C \\ 0 & D \end{bmatrix}\begin{bmatrix} B^{-1} & -B^{-1}CD^{-1} \\ 0 & D^{-1}\end{bmatrix} &= I\\
+    \text{(first entry)}\begin{bmatrix} B \\ C \end{bmatrix}\begin{bmatrix} B^{-1} \\ 0 \end{bmatrix} = BB^{-1} + C0 &= I\\
+    \begin{bmatrix} B \\ C \end{bmatrix}\begin{bmatrix} -B^{-1}CD^{-1} \\ D^{-1} \end{bmatrix} &= -BB^{-1}CD^{-1} + CD^{-1}\\
+    \text{(second entry)}-ICD^{-1} + CD^{-1} = CD^{-1} - CD^{-1} &= 0 \\
+    \text{(third entry)}\begin{bmatrix} 0 \\ D \end{bmatrix}\begin{bmatrix} B^{-1} \\ 0 \end{bmatrix} = B^{-1}(0) + D(0) &= 0 \\
+    \text{(fourth entry)}\begin{bmatrix} 0 \\ D \end{bmatrix}\begin{bmatrix} -B^{-1}CD^{-1} \\ D^{-1} \end{bmatrix} = -B^{-1}CD^{-1}(0) + DD^{-1} &= I
+\end{align*}
+\end{solution}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}{11.8}{4}
+\textit{If a matrix is small, its inverse is large}. If a number $a$ is small, its inverse $\frac{1}{a}$ (assuming $a\neq 0$) is large. In this exercise you will explore a matrix analog of this idea. Suppose the $n\times n$ matrix $A$ is invertible. Show that $\lvert\lvert A^{-1}\rvert\rvert\geq\frac{\sqrt{n}}{\lvert\lvert A\rvert\rvert}$. This implies that if a matrix is small, its inverse is large. \textit{Hint}. You can use the inequality $\lvert\lvert AB\rvert\rvert \leq \lvert\lvert A\rvert\rvert\lvert\lvert B\rvert\rvert$ which holds for any matrices for which the product makes sense. (See exercise {\color{red} 10.12}).
+\end{problem}
+\begin{solution}
+Let $B = A^{-1}$. Since the norm produces a scalar, we will treat it as such:
+\begin{align*}
+    \lvert\lvert AB\rvert\rvert&\leq\lvert\lvert A\rvert\rvert\lvert\lvert B\rvert\rvert\\
+    \lvert\lvert AA^{-1}\rvert\rvert&\leq\lvert\lvert A\rvert\rvert\lvert\lvert B\rvert\rvert\\
+    \lvert\lvert I\rvert\rvert&\leq\lvert\lvert A\rvert\rvert\lvert\lvert B\rvert\rvert\\
+    \sqrt{n}&\leq\lvert\lvert A\rvert\rvert\lvert\lvert B\rvert\rvert\\
+    \frac{\sqrt{n}}{\lvert\lvert A\rvert\rvert}&\leq\lvert\lvert B\rvert\rvert\\
+    \lvert\lvert A^{-1}\rvert\rvert&\geq\frac{\sqrt{n}}{\lvert\lvert A\rvert\rvert}
+\end{align*}
+\end{solution}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}{11.9}{6}
+\textit{Push-through identity.} Suppose $A$ is $m\times n$, $B$ is $n\times m$, and the $m\times m$ matrix $I+AB$ is invertible.
+\begin{enumerate}[(a)]
+    \item Show that the $n\times n$ matrix $I+AB$ is invertible. \textit{Hint.} Show that $(I+BA)x=0$ implies $(I+AB)y = 0$, where $y=Ax$.
+    \item Establish the identity $$B(I+AB)^{-1} = (I+BA)^{-1}B.$$ This is sometimes called th e\textit{push-through identity} since the matrix $B$ appearing on the left 'moves' into the inverse, and 'pushes' the $B$ in the inverse out to the right side.\textit{Hint.} Start with the identity $$B(I+AB) = (I+BA)B,$$ and multiply on the right by $(I+AB)^{-1},$ and on the left by $(I+BA)^{-1}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+\begin{enumerate}[(a)]
+    \item Set $Ix+BAx=Iy+ABy$, and plug $Ax$ in for $y$:
+    \begin{align*}
+        (I+BA)x=Ix+BAx &= 0\\
+        (I+AB)y=Iy+ABy &= 0\\
+        \\
+        Ix+BAx&=Iy+ABy\\
+        x+BAx&=y+ABy\\
+        y&=Ax\\
+        x+BAx&=Ax+ABAx\\
+        x+BAx&=A(Ix+BAx)\\
+        x+BAx&=A(0)\\
+    \end{align*}
+    \item It gave the solution in the hint:
+    \begin{align*}
+        B(I+AB) &= (I+BA)B \\
+        (I+BA)^{-1}B(I+AB)(I+AB)^{-1} &= (I+BA)^{-1}(I+BA)B(I+AB)^{-1} \\
+        (I+BA)^{-1}BI &= IB(I+AB)^{-1}\\
+        (I+BA)^{-1}B &= B(I+AB)^{-1}\\
+        B(I+AB)^{-1}&=(I+BA)^{-1}B
+    \end{align*}
+\end{enumerate}
+\end{solution}
+\end{document}
+
