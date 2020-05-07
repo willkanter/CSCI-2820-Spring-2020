@@ -51,15 +51,16 @@
 \end{problem}
 \begin{solution}
 If $U$ is orthogonal, $U^TU = I$ and $U^{-1} = U^T\longrightarrow U^{-1}U=UU^{-1}=I$.\\
-Orthogonal matrices imply orthonormal rows: $$U_iU_j=\left\{\begin{array}{cc}
+Orthogonal matrices imply orthonormal columns: $$U_iU_j=\left\{\begin{array}{cc}
     1 & i = j \\
     0 & i \neq j 
-\end{array},\right. $$ where $i$ and $j$ denote row number. Let $A = U^{T}$ and suppose the columns of $A$ are orthonormal. If we let our rows of $U$ represent $1\times n$ orthonormal vectors and our columns of $A$ as $n\times 1$ orthonormal vectors, when we transpose the vector of block vectors we find:
+\end{array},\right. $$ where $i$ and $j$ denote column number. Let $A = U^{T}$ and suppose the rows of $A$ are orthonormal since they're the columns of $U$. If we let our rows of $A$ represent $1\times n$ orthonormal vectors and our columns of $U$ as $n\times 1$ orthonormal vectors, when we transpose the vector of block vectors we find:
 \begin{align*}
-    \begin{bmatrix} U_{R1}A_{C1} &  U_{R1}A_{C2} & U_{R1}A_{C3}\\ U_{R2}A_{C1} & U_{R2}A_{C2} & U_{R2}A_{C3} \\ U_{R3}A_{C1} & U_{R3}A_{C2} & U_{R3}A_{C3} \end{bmatrix} &= \begin{bmatrix} 1 &  0 & 0\\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}\\
+    \begin{bmatrix} A_1 \\ A_2 \\ A_3 \end{bmatrix} \begin{bmatrix} U_1 & U_2 & U_3 \end{bmatrix} &=\\
+    \begin{bmatrix} A_1U_1 &  A_1U_2 & A_1U_3\\ A_2U_1 & A_2U_2 & A_2U_3 \\ A_3U_1 & A_3U_2 & A_3U_3 \end{bmatrix} &= \begin{bmatrix} 1 &  0 & 0\\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}\\
     &= I
 \end{align*}
-This satisfies our condition $U^{-1}U=UU^{-1}=I$ because rows become the columns of transposed vectors, so the only time we'll get a one are when the row number matches the column number.
+This satisfies our condition $U^{-1}U=UU^{-1}=I$ because columns become the rows of transposed vectors, so the only time we'll get a one are when the row number matches the column number.
 
 \end{solution}
 \newpage

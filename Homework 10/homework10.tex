@@ -1,0 +1,124 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Do not alter this block (unless you're familiar with LaTeX
+\documentclass{article}
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,amsfonts, fancyhdr, color, comment, graphicx, environ}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{tikz}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+
+\pagestyle{fancy}
+
+% Define problem environment
+\newenvironment{problem}[3][Problem]
+    { \begin{mdframed}[backgroundcolor=gray!20] \textbf{#1 #2} \textit{worth #3 points} \\}
+    {  \end{mdframed}}
+
+% Define solution environment
+\newenvironment{solution}
+    {\textit{Solution:}}
+    {}
+\allowdisplaybreaks
+
+\renewcommand{\qed}{\quad\qedsymbol}
+
+% prevent line break in inline mode
+\binoppenalty=\maxdimen
+\relpenalty=\maxdimen
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Fill in the appropriate information below
+\lhead{Will Kanter}
+\rhead{CSCI 2820} 
+\chead{\textbf{Homework \#10 Due: 17 APR 2020 23:59}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{problem}{12.2}{6}
+\textit{Least squares with orthonormal columns.} Suppose the $m\times n$ matrix $Q$ has orthonormal columns and $b$ is an $m$-vector. Show that  $\hat{x}=Q^Tb$ is the vector that minimizes $\lvert\lvert Qx-b\rvert\rvert^2$. What is the complexity of computing $\hat{x}$, given $Q$ and $b$, and how does it compare to the complexity of a general least squares problem with an $m\times n$ coefficient matrix?
+\end{problem}
+\begin{solution}
+$\hat{x}=Q^Tb$ because the full equation is $\hat{x}=(Q^TQ)^{-1}Q^Tb$. The reason we eliminate $(Q^TQ)^{-1}$ is because $Q^TQ=I$ (orthnormal rows times orthonormal columns), the inverse of the identity matrix is the identity matrix, and $IQ^Tb = Q^Tb$. \\
+\\
+The complexity of a least square problem $\lvert\lvert Ax-b\rvert\rvert^2$ where A is an $m\times n$ coefficient matrix is $2mn^2$. The complexity of solving for $\hat{x}$ and the complexity of a matrix vector multiplication are the same: $2mn$. It is much more efficient to find $Q^Tb$ than solve a general least squares equation. 
+\end{solution}
+
+\begin{problem}{12.4}{8}
+\textit{Weighted least squares}. In least squares, the objective (to be minimized) is $$\|A x-b\|^{2}=\sum_{i=1}^{m}\left(\tilde{a}_{i}^{T} x-b_{i}\right)^{2},$$ where $\tilde{a}_i^T$ are the rows of $A$, and the $n$-vector $x$ is chosen. In \textit{weighted least squares problem,} we minimize the objective $$\sum_{i=1}^{m}w_i\left(\tilde{a}_{i}^{T} x-b_{i}\right)^{2},$$ where $w_i$ are given possible weights. The weights to the different components of the residual vector. (The objective of the weighted least squares problem is the square of the weighted norm, $\lvert\lvert Ax-b\rvert\rvert_{w}^2$, as defined in exercise {\color{red} 3.28}.
+\begin{enumerate}[(a)]
+    \item Show that the weighted least squares objective can be expressed as $\lvert\lvert D(Ax-b)\rvert\rvert^2$ for an appropriate diagonal matrix $D$. This allows us to solve the weighted least squares problem as a standard least squares problem, by minimizing $\lvert\lvert Bx-d\rvert\rvert^2$, where $B = DA$ and $d = Db$.
+    \item Show that when $A$ has linearly independent columns, so does the matrix $B$.
+    \item The least squares approximate solution is given by $\hat{x}=(A^TA)^{-1}A^Tb$. Give a similar formula for the solution of the weighted least squares problem. You might want to use the matrix $W=\textbf{diag}(w)$ in your formula. 
+\end{enumerate}
+\end{problem}
+\begin{solution}
+\begin{enumerate}[(a)]
+    \item First we will distribute the weight attribute into the summation. When we distribute a number into a squared problem we have to take the square root of it for it to balance. 
+    \begin{align*}
+        \sum_{i=1}^{m}w_i\left(\tilde{a}_{i}^{T} x-b_{i}\right)^{2}\\
+        \sum_{i=1}^{m}\left(\sqrt{w_i}(\tilde{a}_{i}^{T}x-b_{i}\right))^{2}\\
+    \end{align*}
+    Since $\tilde{a}_{i}^{T}x$ will produce a scalar, we don't want to multiply it multiple times by the weight, then sum all those numbers. So our matrix $D$ should have a square root value of the weight index only in the index that corresponds to the row of $A$ and index of $b$ we are currently looking at. $$D = 
+    \begin{bmatrix} \sqrt{w_1} & 0 & 0 & \cdots & 0 \\ 
+                    0 & \sqrt{w_2} & 0 & \cdots & 0 \\ 
+                    0 & 0 & \sqrt{w_3} & \cdots & 0 \\
+                    \vdots & \vdots & \vdots & \ddots & 0 \\
+                    0 & 0 & 0 & \cdots & \sqrt{w_m} \end{bmatrix}$$
+    This shows us two things: first, $B$ will be a sort of identity matrix, following the pattern of $D$ it would contain the weighted rows of $A$ as a scalar at each of it's diagonal indices. Second, $Db$ will make the $b_i^{th}$ index equally weighted as well. 
+    \item If $A$ has linearly independent columns then so will $B$. This is shown with $D$ solved in part a, when we multiply the matrix $D$ by the matrix $A$ we would get a matrix whose only indices are diagonal. since only the diagonals are filled then we could not possibly get one column from another, since we will always have 0's matching up with the weighted index. Therefore $B$ would have linearly independent columns (and rows).
+    \item \begin{align*}
+        \hat{x} &= (B^TB)^{-1}B^Td
+    \end{align*}
+\end{enumerate}
+\end{solution}
+
+\begin{problem}{12.1}{3}
+\textit{Approximating a vector as a multiple of another one}. In the special case $n=1$, the general least squares problem ({\color{red}12.1}) reduces to finding a scalar $x$ that minimizes $\lvert\lvert ax-b\rvert\rvert^2$, where $a$ and $b$ are $m$-vectors. (We write the matrix $A$ here in lower case, since it is an $m$-vector). Assuming $a$ and $b$ are non-zero, show that $\lvert\lvert a\hat{x}-b\rvert\rvert^2= \lvert\lvert b\rvert\rvert^2 (\sin{\theta})^2$, where $\theta=\angle(a,b).$ This shows that the optimal relative error in approximating one vector by a multiple of another one depends on their angle.
+\end{problem}
+\begin{solution}
+First, $(\sin{\theta})^2 = 1 - (\cos{\theta})^2 \longrightarrow \cos{\theta} = \frac{a^Tb}{\lvert\lvert a\rvert\rvert\lvert\lvert b\rvert\rvert}\longrightarrow (\cos{\theta})^2 = \frac{(a^Tb)^2}{\lvert\lvert a\rvert\rvert^2\lvert\lvert b\rvert\rvert^2}$
+\begin{align*}
+    \lvert\lvert a\hat{x}-b\rvert\rvert^2 &= \lvert\lvert b\rvert\rvert^2 (\sin{\theta})^2 \\
+    \hat{x} = (a^Ta)^{-1}a^Tb &= \frac{a^Tb}{\lvert\lvert a\rvert\rvert^2} \\
+    \lvert\lvert a^T\bigg(\frac{a^Tb}{\lvert\lvert a\rvert\rvert^2}\bigg)-b\rvert\rvert^2 &= \lvert\lvert b\rvert\rvert^2 (\sin{\theta})^2\\
+    \lvert\lvert a^T\bigg(\frac{a^Tb}{\lvert\lvert a\rvert\rvert^2}\bigg)-b\rvert\rvert\cdot\lvert\lvert a^T\bigg(\frac{a^Tb}{\lvert\lvert a\rvert\rvert^2}\bigg)-b\rvert\rvert &= \lvert\lvert b\rvert\rvert^2 (\sin{\theta})^2\\
+    \lvert\lvert a\rvert\rvert^2 \frac{(a^Tb)^2}{\lvert\lvert a\rvert\rvert^4} - 2\frac{(a^Tb)^2}{\lvert\lvert a\rvert\rvert^2} + \lvert\lvert b\rvert\rvert^2 &= \lvert\lvert b\rvert\rvert^2 (\sin{\theta})^2\\
+    \frac{(a^Tb)^2}{\lvert\lvert a\rvert\rvert^2} - 2\frac{(a^Tb)^2}{\lvert\lvert a\rvert\rvert^2} + \lvert\lvert b\rvert\rvert^2 &= \lvert\lvert b\rvert\rvert^2 (\sin{\theta})^2\\
+    -\frac{(a^Tb)^2}{\lvert\lvert a\rvert\rvert^2} + \lvert\lvert b\rvert\rvert^2 &= \lvert\lvert b\rvert\rvert^2 (\sin{\theta})^2\\
+    \bigg(\frac{1}{\lvert\lvert b\rvert\rvert^2}\bigg)\bigg(-\frac{(a^Tb)^2}{\lvert\lvert a\rvert\rvert^2} + \lvert\lvert b\rvert\rvert^2\bigg) &= (\sin{\theta})^2 \\
+    1 - \frac{(a^Tb)^2}{\lvert\lvert a\rvert\rvert^2\lvert\lvert b\rvert\rvert^2} &= \sin{\theta}^2 \\
+    1 - \cos{\theta}^2 &= \sin{\theta}^2
+\end{align*}
+\end{solution}
+
+
+\begin{problem}{12.8a}{3}
+\textit{Least squares and QR factorization.} Suppose $A$ is an $m \times n$ matrix with linearly independent columns and QR factorization $A = QR$, and $b$ is an $m$-vector. The vector $A\hat{x}$ is the linear combination of the columns of $A$ that is closest to the vector $b$, i.e., it is the projection of $b$ onto the set of linear combinations of the columns of $A$.
+\begin{enumerate}
+    \item Show that $A\hat{x}=QQ^Tb.$ (The matrix $QQ^T$ is called the \textit{projection matrix.})
+\end{enumerate}
+\end{problem}
+\begin{solution}
+Since $R$ is invertible, we can also solve for $Q = AR^{-1}$
+\begin{align*}
+    \hat{x} &= A^{\dagger}b\\
+    A^{\dagger} &= R^{-1}Q^T \\
+    \\
+    A\hat{x} &= QQ^Tb \\
+    AA^{\dagger}b &= QQ^Tb \\
+    AR^{-1}Q^Tb &= QQ^Tb\\
+    QQ^Tb &= QQ^Tb
+\end{align*}
+\end{solution}
+\end{document}
