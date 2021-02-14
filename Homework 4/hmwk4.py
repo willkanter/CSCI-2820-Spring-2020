@@ -19,7 +19,7 @@ npa = df.to_numpy()
 
 
 # This is python magic, 25 lines of c++ code in 1. it zips centersX and centersY
-# to a single input, which gets turned into a list which gets turned into an array.
+# to a tuple, which gets turned into a list which gets turned into an array.
 centersX = df[0].sample(n = k) # this takes n samples from the x column which allows our initial points to stay within bounds
 centersY = df[1].sample(n = k) # same, but with y values
 centers = np.array(list(zip(centersX, centersY)))
